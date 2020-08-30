@@ -15,26 +15,28 @@
 <body>
     <br>
     <div class="container">
-        <h2 class="toplogo">Tweetify
-            <i class="fa fa-twitter" aria-hidden="true"></i>
-        </h2>
-    </div>
-    <br>
-    <div class="container">
-        <a href="{{ url_for('index') }}">
-            <button type="button" class="btn btn-dark">Back To Search</button>
-        </a>
-        <button type="button" class="btn btn-primary">Download CSV</button>
-        <button type="button" class="btn btn-success">Download PDF</button>
-        <button type="button" class="btn btn-warning">Download JSON</button>
-        <a href="{{ url_for('analysis') }}">
-            <button type="button" class="btn btn-danger">Analysis</button>
-        </a>
+        <div>
+            <h2 class="toplogo">Tweetify
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+            </h2>
+        </div>
         <br>
-        <br>
-        {% for table in tables %}
-        {{ table|safe }}
-        {% endfor %}
+        <div>
+            <a href="{{ url_for('index') }}">
+                <button type="button" class="btn btn-dark">Back To Search</button>
+            </a>
+            <button type="button" class="btn btn-primary">Download CSV</button>
+            <button type="button" class="btn btn-success">Download PDF</button>
+            <button type="button" class="btn btn-warning">Download JSON</button>
+            <a href="{{ url_for('analysis') }}">
+                <button type="button" class="btn btn-danger">Analysis</button>
+            </a>
+            <br>
+            <br>
+            {% for table in tables %}
+            {{ table|safe }}
+            {% endfor %}
+        </div>
     </div>
 
 

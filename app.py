@@ -33,7 +33,7 @@ def result():
     df = Tweets_df[["tweet", "link", "hashtags", "nlikes"]]
     d = df[:noofresults]
 
-    return render_template('results.html', tables=[d.to_html(render_links=True, classes=['container table'])],dataframe=d)
+    return render_template('results.html', tables=[d.to_html(render_links=True, classes=['table table-hover table-responsive'])],dataframe=d)
 
 @app.route('/analysis', methods=["POST", "GET"])
 def analysis():
