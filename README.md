@@ -1,3 +1,5 @@
 # Tweetify
 
-- Twitter Data Collection, Analysis Tool
+- Twitter Query
+- Data Collection
+- Data Analysis
