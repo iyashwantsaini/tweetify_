@@ -8,18 +8,7 @@ app = Flask(__name__)
 
 @app.route('/', methods=["POST", "GET"])
 def login():
-    return render_template('login.html')
-
-
-@app.route('/query', methods=["POST", "GET"])
-def query():
-    username = request.form['username']
-    password = request.form['password']
-    if username == 'thapar' and password == 'thapar':
-        return render_template('twitter.html')
-    else:
-        return render_template('login.html', warning='Please enter correct username and password')
-
+    return render_template('twitter.html')
 
 @app.route('/results', methods=["POST"])
 def result():
