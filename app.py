@@ -35,6 +35,9 @@ def result():
 
     return render_template('results.html', tables=[d.to_html(render_links=True, classes=['table table-responsive-sm'])])
 
+@app.route('/analysis', methods=["POST", "GET"])
+def analysis():
+    return render_template('analysis.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
