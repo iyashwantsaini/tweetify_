@@ -1,9 +1,10 @@
-.fetchbtn{
+.fetchbtn {
     margin: 20px;
 }
-.toplogo{
+
+.toplogo {
     font-family: 'Merriweather', serif;
-    text-align: center; 
+    text-align: center;
     font-size: 80px;
     color: #007bff;
 }
