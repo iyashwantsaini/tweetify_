@@ -19,7 +19,8 @@
             <i class="fa fa-twitter" aria-hidden="true"></i>
         </h2>
     </div>
-    <div>
+    <br>
+    <div class="container">
         <a href="{{ url_for('index') }}">
             <button type="button" class="btn btn-dark">Back To Search</button>
         </a>
@@ -29,13 +30,11 @@
         <a href="{{ url_for('analysis') }}">
             <button type="button" class="btn btn-danger">Analysis</button>
         </a>
-        <div>
-            <table class="table table-striped table-bordered">
-                {% for table in tables %}
-                {{ table|safe }}
-                {% endfor %}
-            </table>
-        </div>
+        <br>
+        <br>
+        {% for table in tables %}
+        {{ table|safe }}
+        {% endfor %}
     </div>
 
 
