@@ -18,7 +18,7 @@ def result():
     noofresults = int(request.form['number'])
     sincedate = request.form['since']
     tilldate = request.form['till']
-    location = request.form['loc']
+    location = request.form['location']
 
     c = twint.Config()
     c.Search = keywords
@@ -33,7 +33,7 @@ def result():
     df = Tweets_df[["tweet", "link", "hashtags", "nlikes"]]
     d = df[:noofresults]
 
-    return render_template('index.html', tables=[d.to_html(render_links=True, classes=['table table-striped table-bordered table-hover table-responsive'])])
+    return render_template('results.html', tables=[d.to_html(render_links=True, classes=['table table-striped table-bordered table-hover table-responsive'])])
 
 
 if __name__ == '__main__':

@@ -8,61 +8,45 @@
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../static/index.css">
-    <title>Query Twitter</title>
+    <title>Tweetify | Home</title>
 </head>
 
 <body>
     <div class="container">
 
-        <h1 style="font-family: 'Merriweather', serif; text-align: center; font-size: 100px">Tweetify
+        <h2 class="toplogo">Tweetify
             <i class="fa fa-twitter" aria-hidden="true"></i>
-        </h1>
+        </h2>
 
         <form method="post" action="{{ url_for('result') }}">
-            <div>
-                <div class="col">
-                    <label for="key">Keyword</label>
-                    <input id="key" type="text" class="form-control" placeholder="Enter a keyword" name="keyword">
-                </div>
-                <br>
-                <div class="col">
-                    <input type="text" class="form-control" placeholder="Enter no. of tweets" name="number">
-                </div>
-                <br>
+            <div class="form-group">
+                <label for="key">Keyword</label>
+                <input type="text" class="form-control" id="key" aria-describedby="keyhelp" name="keyword" placeholder="hacking">
+                <small id="keyhelp" class="form-text text-muted">Enter the keyword you want!</small>
             </div>
-            <div>
-                <div class="col">
-                    <input type="text" class="form-control" placeholder="Since(DateTime: YYYY-MM-DD HH:MM:SS)"
-                        name="since">
-                </div>
-                <br>
-                <div class="col">
-                    <input type="text" class="form-control" placeholder="Until(DateTime: YYYY-MM-DD HH:MM:SS)"
-                        name="till">
-                </div>
-                <br>
-                <div class="col">
-                    <input type="text" class="form-control" placeholder="Location" name="loc">
-                </div>
-                <button type="submit" class="btn btn-primary fetchbtn">Fetch Tweets</button>
-                <br>
-                <br>
+            <div class="form-group">
+                <label for="key" name="keyword">Number</label>
+                <input type="text" class="form-control" id="num" aria-describedby="numhelp" name="number" placeholder="10">
+                <small id="numhelp" class="form-text text-muted">Enter the number of tweets you want!</small>
             </div>
+            <div class="form-group">
+                <label for="from" name="keyword">(Optional) Time: from</label>
+                <input type="text" class="form-control" id="from" aria-describedby="fromhelp" name="since" placeholder="YYYY-MM-DD HH:MM:SS">
+                <small id="fromhelp" class="form-text text-muted">Time Interval Start! Format : YYYY-MM-DD HH:MM:SS</small>
+            </div>
+            <div class="form-group">
+                <label for="till" name="keyword">(Optional) Time: Till</label>
+                <input type="text" class="form-control" id="till" aria-describedby="tillhelp" name="till" placeholder="YYYY-MM-DD HH:MM:SS">
+                <small id="tillhelp" class="form-text text-muted">Time Interval End! Format : YYYY-MM-DD HH:MM:SS</small>
+            </div>
+            <div class="form-group">
+                <label for="loc" name="keyword">Location</label>
+                <input type="text" class="form-control" id="loc" aria-describedby="lochelp" name="location" placeholder="India">
+                <small id="lochelp" class="form-text text-muted">Enter the location from where you want tweets!</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Fetch Tweets!</button>
         </form>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h2 style="margin: 15px;">Tweets<h2>
-            </div>
-            <div class="panel-body">
-                <div>
-                    <table class="table table-striped table-bordered" style="color: #FFFFFF;">
-                        {% for table in tables %}
-                        {{ table|safe }}
-                        {% endfor %}
-                    </table>
-                </div>
-            </div>
-        </div>
+
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
