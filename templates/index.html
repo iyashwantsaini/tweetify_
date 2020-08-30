@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@900&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/index.css">
+    <title>Query Twitter</title>
+</head>
+
+<body>
+    <h1 style="font-family: 'Merriweather', serif; text-align: center; font-size: 100px">Query Twitter <i
+            class="fa fa-twitter" aria-hidden="true"></i></h1>
+    <br>
+    <br>
+    <br>
+
+    <form method="post" action="{{ url_for('result') }}">
+        <div>
+            <div class="col">
+                <input type="text" class="form-control" placeholder="Enter a keyword" name="keyword">
+            </div>
+            <br>
+            <div class="col">
+                <input type="text" class="form-control" placeholder="Enter no. of tweets" name="number">
+            </div>
+            <br>
+        </div>
+        <div>
+            <div class="col">
+                <input type="text" class="form-control" placeholder="Since(DateTime: YYYY-MM-DD HH:MM:SS)" name="since">
+            </div>
+            <br>
+            <div class="col">
+                <input type="text" class="form-control" placeholder="Until(DateTime: YYYY-MM-DD HH:MM:SS)" name="till">
+            </div>
+            <br>
+            <div class="col">
+                <input type="text" class="form-control" placeholder="Location" name="loc">
+            </div>
+            <button type="submit" class="btn btn-primary" style="padding: 10px; margin: 15px">Fetch</button>
+            <br>
+            <br>
+        </div>
+    </form>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 style="margin: 15px;">Tweets<h2>
+        </div>
+        <div class="panel-body">
+            <div>
+                <table class="table table-striped table-bordered" style="color: #FFFFFF;">
+
+                    {% for table in tables %}
+                    {{ table|safe }}
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/index.js"></script>
+</body>
+</html>

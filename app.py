@@ -8,7 +8,8 @@ app = Flask(__name__)
 
 @app.route('/', methods=["POST", "GET"])
 def login():
-    return render_template('twitter.html')
+    return render_template('index.html')
+
 
 @app.route('/results', methods=["POST"])
 def result():
@@ -32,7 +33,7 @@ def result():
     df = Tweets_df[["tweet", "link", "hashtags", "nlikes"]]
     d = df[:noofresults]
 
-    return render_template('twitter.html', tables=[d.to_html(render_links=True, classes=['table table-striped table-bordered table-hover table-responsive'])])
+    return render_template('index.html', tables=[d.to_html(render_links=True, classes=['table table-striped table-bordered table-hover table-responsive'])])
 
 
 if __name__ == '__main__':
