@@ -16,6 +16,7 @@
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
+  background-color: #2c3338;
 }
 
 /* helpers/grid.css */

@@ -12,13 +12,15 @@ app = Flask(__name__)
 def login():
     return render_template('login.html')
 
+
 @app.route('/index', methods=["POST", "GET"])
 def index():
     username = request.form['username']
     password = request.form['password']
-    if(username=='thapar' and password=='thapar'):
+    if(username == 'thapar' and password == 'thapar'):
         return render_template('index.html')
-    
+
+
 data = None
 
 
