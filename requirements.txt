@@ -4,5 +4,7 @@ numpy
 matplotlib
 seaborn
 git+https://github.com/twintproject/twint.git@origin/master#egg=twint
-flask-login
-SQLAlchemy
+flask_login
+flask_sqlalchemy
+paralleldots
+gunicorn

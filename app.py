@@ -1,5 +1,6 @@
 from flask import Flask, render_template,flash, redirect,url_for,session,logging,request
 from flask.helpers import make_response
+from pandas.core.series import Series
 import twint
 import pandas as pd
 import numpy as np
@@ -7,6 +8,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from flask_sqlalchemy import SQLAlchemy 
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+import paralleldots
+import io
+import base64
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -23,6 +27,17 @@ class User(UserMixin,db.Model):
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+def paralleldots_api(text):
+    api_key = "DgACcdya0nNxCxWOeKHDmEsEMIWtMDRds9PPwx5nmGc"
+    paralleldots.set_api_key(api_key)
+    text_todo=text
+    emot=paralleldots.emotion(text_todo)
+    # print(emot) #emotion analysis
+    # intent=paralleldots.intent(text_todo)
+    # print(intent) #Intent analyisis
+    # return {'emotion':emot,'intent':intent}
+    return emot
 
 @app.route("/",methods=["GET", "POST"])
 def login():
@@ -82,6 +97,7 @@ def result():
     # df = Tweets_df[["tweet", "link", "hashtags", "nlikes"]]
     df = tweets_df[["tweet", "link"]]
     df_final = df[0:noofresults]
+    df_final.columns=["Tweet","Link"]
 
     # saving to session of current user
     session["data_current"] = df_final.to_json()
@@ -111,7 +127,39 @@ def dwn_json():
 def analysis():
     df_from_session = session.get('data_current')
     df = pd.read_json(df_from_session, dtype=False)
-    return render_template('analysis.html', tables=[df.to_html(render_links=True, classes=['table table-hover table-responsive'])])
+    print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+    
+    happy=0
+    angry=0
+    bored=0
+    fear=0
+    sad=0
+    excited=0
+
+    for i in df.index: 
+        curr_ans=paralleldots_api(df['Tweet'][i])['emotion']
+        happy+=curr_ans['Happy']
+        angry+=curr_ans['Angry']
+        bored+=curr_ans['Bored']
+        fear+=curr_ans['Fear']
+        sad+=curr_ans['Sad']
+        excited+=curr_ans['Excited']
+
+    print(happy,angry,bored,fear,sad,excited)
+
+    data=[happy,angry,bored,fear,sad,excited]
+    emotions=["Happy","Angry","Bored","Fear","Sad","Excited"]
+
+    fig = plt.figure(figsize =(10, 7)) 
+    plt.pie(data, labels = emotions) 
+    img = io.BytesIO()
+    plt.savefig(img, format='png')
+    plt.close()
+    img.seek(0)
+
+    plot_url = base64.b64encode(img.getvalue()).decode()
+    
+    return render_template('analysis.html', tables=[df.to_html(render_links=True, classes=['table align-middle'])], plot_url=plot_url)
 
 
 if __name__ == '__main__':
