@@ -19,7 +19,6 @@ def index():
     if(username=='thapar' and password=='thapar'):
         return render_template('index.html')
     
-
 data = None
 
 
