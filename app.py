@@ -1,4 +1,5 @@
 from flask import Flask, render_template,flash, redirect,url_for,session,logging,request
+from flask.helpers import make_response
 import twint
 import pandas as pd
 import numpy as np
@@ -18,7 +19,6 @@ class User(UserMixin,db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80),unique=True)
     password = db.Column(db.String(80))
-    last_data=db.Column(db.String())
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -59,19 +59,17 @@ def logout():
 def index():
     return render_template('index.html',user_=current_user.username)
 
-data=None
-
 @login_required
-@app.route('/results', methods=["POST"])
+@app.route('/results', methods=["POST", "GET"])
 def result():
 
+    c = twint.Config()
     keywords = request.form['keyword']
     noofresults = int(request.form['number'])
     sincedate = request.form['since']
     tilldate = request.form['till']
     location = request.form['location']
 
-    c = twint.Config()
     c.Search = keywords
     c.Limit = noofresults
     c.Since = sincedate
@@ -79,18 +77,40 @@ def result():
     c.Near = location
     c.Pandas = True
     twint.run.Search(c)
+    tweets_df = twint.storage.panda.Tweets_df
 
-    Tweets_df = twint.storage.panda.Tweets_df
-    df = Tweets_df[["tweet", "link", "hashtags", "nlikes"]]
-    d = df[:noofresults]
-    global data
-    data = d
-    return render_template('results.html', tables=[d.to_html(render_links=True, classes=['table table-hover table-responsive'])], dataframe=d)
+    # df = Tweets_df[["tweet", "link", "hashtags", "nlikes"]]
+    df = tweets_df[["tweet", "link"]]
+    df_final = df[0:noofresults]
+
+    # saving to session of current user
+    session["data_current"] = df_final.to_json()
+    return render_template('results.html', tables=[df_final.to_html(render_links=True, classes=['table align-middle'])])
+
+@login_required
+@app.route('/dwn_csv', methods=["POST", "GET"])
+def dwn_csv():
+    df_from_session = session.get('data_current')
+    df = pd.read_json(df_from_session, dtype=False)
+    resp = make_response(df.to_csv())
+    resp.headers["Content-Disposition"] = "attachment; filename=tweets.csv"
+    resp.headers["Content-Type"] = "text/csv"
+    return resp
+
+@login_required
+@app.route('/dwn_json', methods=["POST", "GET"])
+def dwn_json():
+    df_from_session = session.get('data_current')
+    resp = make_response(df_from_session)
+    resp.headers["Content-Disposition"] = "attachment; filename=tweets.json"
+    resp.headers["Content-Type"] = "application/json"
+    return resp
 
 @login_required
 @app.route('/analysis', methods=["POST", "GET"])
 def analysis():
-    df = data
+    df_from_session = session.get('data_current')
+    df = pd.read_json(df_from_session, dtype=False)
     return render_template('analysis.html', tables=[df.to_html(render_links=True, classes=['table table-hover table-responsive'])])
 
 
