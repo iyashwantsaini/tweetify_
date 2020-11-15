@@ -18,6 +18,7 @@ class User(UserMixin,db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80),unique=True)
     password = db.Column(db.String(80))
+    last_data=db.Column(db.String())
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -32,6 +33,8 @@ def login():
         if usr is not None:
             login_user(usr)
             return redirect(url_for("index"))
+        else:
+            render_template("login.html",message="Invalid Credentials!")
     return render_template("login.html")
 
 @app.route("/register", methods=["GET", "POST"])
@@ -49,7 +52,7 @@ def register():
 @login_required
 def logout():
     logout_user()
-    return 'You are now logged out!'
+    return render_template("login.html",message="Successfully Logged Out!")
 
 @login_required
 @app.route('/index', methods=["POST", "GET"])
