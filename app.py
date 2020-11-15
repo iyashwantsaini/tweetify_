@@ -127,7 +127,6 @@ def dwn_json():
 def analysis():
     df_from_session = session.get('data_current')
     df = pd.read_json(df_from_session, dtype=False)
-    print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
     
     happy=0
     angry=0
@@ -135,9 +134,11 @@ def analysis():
     fear=0
     sad=0
     excited=0
+    count=0
 
     for i in df.index: 
         curr_ans=paralleldots_api(df['Tweet'][i])['emotion']
+        count+=1
         happy+=curr_ans['Happy']
         angry+=curr_ans['Angry']
         bored+=curr_ans['Bored']
@@ -145,21 +146,26 @@ def analysis():
         sad+=curr_ans['Sad']
         excited+=curr_ans['Excited']
 
-    print(happy,angry,bored,fear,sad,excited)
-
-    data=[happy,angry,bored,fear,sad,excited]
+    data=[happy/count,angry/count,bored/count,fear/count,sad/count,excited/count]
     emotions=["Happy","Angry","Bored","Fear","Sad","Excited"]
 
-    fig = plt.figure(figsize =(10, 7)) 
-    plt.pie(data, labels = emotions) 
+    fig = plt.figure(figsize =(4, 5)) 
+    plt.pie(data, labels = emotions)
     img = io.BytesIO()
     plt.savefig(img, format='png')
     plt.close()
     img.seek(0)
+    plot_pie = base64.b64encode(img.getvalue()).decode()
 
-    plot_url = base64.b64encode(img.getvalue()).decode()
+    fig2 = plt.figure(figsize =(7, 5)) 
+    plt.bar(emotions,data)
+    img2 = io.BytesIO()
+    plt.savefig(img2, format='png')
+    plt.close()
+    img.seek(0)
+    plot_bar = base64.b64encode(img2.getvalue()).decode()
     
-    return render_template('analysis.html', tables=[df.to_html(render_links=True, classes=['table align-middle'])], plot_url=plot_url)
+    return render_template('analysis.html', tables=[df.to_html(render_links=True, classes=['table align-middle'])], plot_bar=plot_bar,plot_pie=plot_pie)
 
 
 if __name__ == '__main__':
