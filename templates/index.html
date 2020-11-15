@@ -16,7 +16,7 @@
     <div class="container">
         <br>
         <h2 class="toplogo">Tweetify
-            <i class="fa fa-twitter" aria-hidden="true"></i>
+            <img src="../static/logo.png" alt="" srcset="" class="logo_">
         </h2>
         <br><br>
         <form method="post" action="{{ url_for('result') }}">
@@ -25,19 +25,19 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="key">Keyword</label>
-                        <input type="text" class="form-control" id="key" aria-describedby="keyhelp" name="keyword"
+                        <input type="text" class="form-control box" id="key" aria-describedby="keyhelp" name="keyword"
                             placeholder="hacking">
                         <small id="keyhelp" class="form-text text-muted">Enter the keyword you want!</small>
                     </div>
                     <div class="form-group">
                         <label for="key" name="keyword">Number</label>
-                        <input type="text" class="form-control" id="num" aria-describedby="numhelp" name="number"
+                        <input type="text" class="form-control box" id="num" aria-describedby="numhelp" name="number"
                             placeholder="10">
                         <small id="numhelp" class="form-text text-muted">Enter the number of tweets you want!</small>
                     </div>
                     <div class="form-group">
                         <label for="loc" name="keyword">Location</label>
-                        <input type="text" class="form-control" id="loc" aria-describedby="lochelp" name="location"
+                        <input type="text" class="form-control box" id="loc" aria-describedby="lochelp" name="location"
                             placeholder="India">
                         <small id="lochelp" class="form-text text-muted">Enter the location from where you want
                             tweets!</small>
@@ -46,13 +46,13 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="from" name="keyword">Time: from (Optional) </label>
-                        <input type="text" class="form-control" id="from" aria-describedby="fromhelp" name="since"
+                        <input type="text" class="form-control box" id="from" aria-describedby="fromhelp" name="since"
                             placeholder="YYYY-MM-DD HH:MM:SS">
                         <small id="fromhelp" class="form-text text-muted">Format : YYYY-MM-DD HH:MM:SS</small>
                     </div>
                     <div class="form-group">
                         <label for="till" name="keyword">Time: Till (Optional) </label>
-                        <input type="text" class="form-control" id="till" aria-describedby="tillhelp" name="till"
+                        <input type="text" class="form-control box" id="till" aria-describedby="tillhelp" name="till"
                             placeholder="YYYY-MM-DD HH:MM:SS">
                         <small id="tillhelp" class="form-text text-muted">Format : YYYY-MM-DD HH:MM:SS</small>
                     </div>
@@ -60,7 +60,7 @@
             </div>
             <br>
             <br>
-            <button type="submit" class="btn btn-primary">Fetch Tweets!</button>
+            <button type="submit" class="btn btn-primary custombtn">Fetch Tweets!</button>
         </form>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>

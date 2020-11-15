@@ -12,6 +12,8 @@
 </head>
 
 <body class="align">
+    <br>
+    <p style="color: whitesmoke;">{{message}}</p>
     <div class="grid">
         <!-- <form action="{{ url_for('index') }}" method="POST" class="form login"> -->
         <form method="POST" class="form login">
@@ -32,6 +34,13 @@
             <div class="form__field">
                 <input type="submit" value="Sign Up!">
             </div>
+        </form>
+    </div>
+    <br>
+    <div class="grid">
+        <form action="{{ url_for('login') }}">
+            <p style="color: whitesmoke;">Already a Member?</p>
+            <button type="submit" class="btn btn-primary">Sign In!</button>
         </form>
     </div>
     <svg xmlns="http://www.w3.org/2000/svg" class="icons">

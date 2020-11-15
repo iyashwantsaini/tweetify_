@@ -5,6 +5,22 @@
 .toplogo {
   font-family: "Merriweather", serif;
   text-align: center;
-  font-size: 80px;
-  color: #007bff;
+  font-size: 70px;
+  color: #00acee;
+}
+
+.logo_{
+  width: 70px;
+}
+
+.custombtn{
+  background-color: #00acee;
+  border-color: #00acee;
+}
+
+.box{
+  align-items: center;
+  align-self: auto;
+  width: 90%;
+  margin-top: 5px;
 }

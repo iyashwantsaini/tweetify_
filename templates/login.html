@@ -12,9 +12,10 @@
 </head>
 
 <body class="align">
+    <br>
+    <p style="color: whitesmoke;">{{message}}</p>
     <div class="grid">
-        <!-- <form action="{{ url_for('index') }}" method="POST" class="form login"> -->
-        <form method="POST" class="form login">
+        <form action="{{ url_for('login') }}" method="POST" class="form login">
             <div class="form__field">
                 <label for="login__username"><svg class="icon">
                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user"></use>
@@ -32,7 +33,13 @@
             <div class="form__field">
                 <input type="submit" value="Sign In!">
             </div>
-            <p>{{message}}</p>
+        </form>
+    </div>
+    <br>
+    <div class="grid">
+        <form action="{{ url_for('register') }}">
+            <p style="color: whitesmoke;">Not a Member?</p>
+            <button type="submit" class="btn btn-primary">Sign Up!</button>
         </form>
     </div>
     <svg xmlns="http://www.w3.org/2000/svg" class="icons">
