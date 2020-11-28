@@ -99,15 +99,20 @@ def result():
     df_final = df[0:noofresults]
     df_final.columns=["Tweet","Link"]
 
-    # saving to session of current user
-    session["data_current"] = df_final.to_json()
+    # saving to session of current user - not used because of cache problem
+    # session["data_current"] = df_final.to_json()
+    df_final.to_csv(current_user.username+'_file.csv', encoding='utf-8',index=False)
+
     return render_template('results.html', tables=[df_final.to_html(render_links=True, classes=['table align-middle'])])
 
 @login_required
 @app.route('/dwn_csv', methods=["POST", "GET"])
 def dwn_csv():
-    df_from_session = session.get('data_current')
-    df = pd.read_json(df_from_session, dtype=False)
+    # df_from_session = session.get('data_current')
+    # df = pd.read_json(df_from_session, dtype=False)
+    filename=current_user.username+'_file.csv'
+    df=pd.read_csv(filename,error_bad_lines=False)
+    # df.columns = df.iloc[0]
     resp = make_response(df.to_csv())
     resp.headers["Content-Disposition"] = "attachment; filename=tweets.csv"
     resp.headers["Content-Type"] = "text/csv"
@@ -116,8 +121,13 @@ def dwn_csv():
 @login_required
 @app.route('/dwn_json', methods=["POST", "GET"])
 def dwn_json():
-    df_from_session = session.get('data_current')
-    resp = make_response(df_from_session)
+    # df_from_session = session.get('data_current')
+    # resp = make_response(df_from_session)
+    filename=current_user.username+'_file.csv'
+    df=pd.read_csv(filename,error_bad_lines=False)
+    # df.columns = df.iloc[0]
+    df=df.to_json()
+    resp = make_response(df)
     resp.headers["Content-Disposition"] = "attachment; filename=tweets.json"
     resp.headers["Content-Type"] = "application/json"
     return resp
@@ -125,9 +135,13 @@ def dwn_json():
 @login_required
 @app.route('/analysis', methods=["POST", "GET"])
 def analysis():
-    df_from_session = session.get('data_current')
-    df = pd.read_json(df_from_session, dtype=False)
-    
+    # df_from_session = session.get('data_current')
+    # df = pd.read_json(df_from_session, dtype=False)
+    filename=current_user.username+'_file.csv'
+    df=pd.read_csv(filename,error_bad_lines=False, encoding='utf-8')
+    # df.columns = df.iloc[0]
+    # print(df)
+
     happy=0
     angry=0
     bored=0
