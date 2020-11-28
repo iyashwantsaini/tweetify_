@@ -22,10 +22,18 @@
             <a href="{{ url_for('logout') }}" type="button" class="btn btn-danger logout">Logout</a>
         </div>
         <br><br>
+
         <div>
+            <h3>Sentiment Analysis</h3>
+            <img src="data:image/png;base64, {{ plot_pie_sent }}">
+            <img src="data:image/png;base64, {{ plot_bar_sent }}">
+            
+            <br>
+            <h3>Emotional Analysis</h3>
             <img src="data:image/png;base64, {{ plot_pie }}">
             <img src="data:image/png;base64, {{ plot_bar }}">
             
+            <br>
             <table class="table table-sm">
                 <div class="table-responsive">
                     {% for table in tables %}
@@ -34,6 +42,7 @@
                 </div>
             </table>
         </div>
+
     </div>
     <br><br>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>

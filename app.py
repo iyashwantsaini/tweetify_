@@ -11,6 +11,12 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 import paralleldots
 import io
 import base64
+# import requests
+# from pprint import pprint
+# import os
+# subscription_key = "18e4e7168e2841f0b2b9e50486da09c5"
+# endpoint = "https://tweetify.cognitiveservices.azure.com/"
+# sentiment_url = endpoint + "/text/analytics/v3.0/sentiment"
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -34,10 +40,22 @@ def paralleldots_api(text):
     text_todo=text
     emot=paralleldots.emotion(text_todo)
     # print(emot) #emotion analysis
-    # intent=paralleldots.intent(text_todo)
+    sentiment=paralleldots.sentiment(text_todo)
     # print(intent) #Intent analyisis
     # return {'emotion':emot,'intent':intent}
-    return emot
+    return {'emot':emot['emotion'],'sent':sentiment['sentiment']}
+
+# def microsoft_api(text):
+#     documents = {"documents": [
+#     {"id": "1", "language": "en",
+#         "text": text}
+#     ]}
+#     headers = {"Ocp-Apim-Subscription-Key": "18e4e7168e2841f0b2b9e50486da09c5"}
+#     response = requests.post(sentiment_url, headers=headers, json=documents)
+#     sentiments = response.json()
+#     pprint(sentiments)
+#     scores=sentiments["documents"][0]["confidenceScores"]
+#     print(scores)
 
 @app.route("/",methods=["GET", "POST"])
 def login():
@@ -142,16 +160,25 @@ def analysis():
     # df.columns = df.iloc[0]
     # print(df)
 
+    # emotional
     happy=0
     angry=0
     bored=0
     fear=0
     sad=0
     excited=0
+    # sentiment
+    positive=0
+    negative=0
+    neutral=0
+    # counter
     count=0
 
     for i in df.index: 
-        curr_ans=paralleldots_api(df['Tweet'][i])['emotion']
+        get_response=paralleldots_api(df['Tweet'][i])
+        curr_ans=get_response['emot']
+        curr_ans_sent=get_response['sent']
+
         count+=1
         happy+=curr_ans['Happy']
         angry+=curr_ans['Angry']
@@ -159,9 +186,14 @@ def analysis():
         fear+=curr_ans['Fear']
         sad+=curr_ans['Sad']
         excited+=curr_ans['Excited']
+        positive+=curr_ans_sent['positive']
+        negative+=curr_ans_sent['negative']
+        neutral+=curr_ans_sent['neutral']
 
     data=[happy/count,angry/count,bored/count,fear/count,sad/count,excited/count]
     emotions=["Happy","Angry","Bored","Fear","Sad","Excited"]
+    data_sent=[positive/count,negative/count,neutral/count]
+    sentiments=["Positive","Negative","Neutral"]
 
     fig = plt.figure(figsize =(4, 5)) 
     plt.pie(data, labels = emotions)
@@ -176,10 +208,27 @@ def analysis():
     img2 = io.BytesIO()
     plt.savefig(img2, format='png')
     plt.close()
-    img.seek(0)
+    img2.seek(0)
     plot_bar = base64.b64encode(img2.getvalue()).decode()
+
+    fig3 = plt.figure(figsize =(4, 5)) 
+    plt.pie(data_sent, labels = sentiments)
+    img3 = io.BytesIO()
+    plt.savefig(img3, format='png')
+    plt.close()
+    img3.seek(0)
+    plot_pie_sent = base64.b64encode(img3.getvalue()).decode()
+
+    fig4 = plt.figure(figsize =(7, 5)) 
+    plt.bar(sentiments,data_sent)
+    img4 = io.BytesIO()
+    plt.savefig(img4, format='png')
+    plt.close()
+    img4.seek(0)
+    plot_bar_sent = base64.b64encode(img4.getvalue()).decode()
     
-    return render_template('analysis.html', tables=[df.to_html(render_links=True, classes=['table align-middle'])], plot_bar=plot_bar,plot_pie=plot_pie)
+    return render_template('analysis.html', tables=[df.to_html(render_links=True, classes=['table align-middle'])], 
+    plot_bar=plot_bar,plot_pie=plot_pie,plot_bar_sent=plot_bar_sent,plot_pie_sent=plot_pie_sent)
 
 
 if __name__ == '__main__':
