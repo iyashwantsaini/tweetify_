@@ -14,7 +14,7 @@ import base64
 # import requests
 # from pprint import pprint
 # import os
-# subscription_key = "18e4e7168e2841f0b2b9e50486da09c5"
+# subscription_key = ""
 # endpoint = "https://tweetify.cognitiveservices.azure.com/"
 # sentiment_url = endpoint + "/text/analytics/v3.0/sentiment"
 
@@ -35,7 +35,7 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 def paralleldots_api(text):
-    api_key = "DgACcdya0nNxCxWOeKHDmEsEMIWtMDRds9PPwx5nmGc"
+    api_key = ""
     paralleldots.set_api_key(api_key)
     text_todo=text
     emot=paralleldots.emotion(text_todo)
@@ -50,7 +50,7 @@ def paralleldots_api(text):
 #     {"id": "1", "language": "en",
 #         "text": text}
 #     ]}
-#     headers = {"Ocp-Apim-Subscription-Key": "18e4e7168e2841f0b2b9e50486da09c5"}
+#     headers = {"Ocp-Apim-Subscription-Key": ""}
 #     response = requests.post(sentiment_url, headers=headers, json=documents)
 #     sentiments = response.json()
 #     pprint(sentiments)
